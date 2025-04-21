@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Drum Kit</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="keys">
+      <div id="key-A" data-key="65" class="key">
+        <kbd>A</kbd>
+        <span class="sound">clap</span>
+      </div>
+      <div id="key-S" data-key="83" class="key">
+        <kbd>S</kbd>
+        <span class="sound">hihat</span>
+      </div>
+      <div id="key-D" data-key="68" class="key">
+        <kbd>D</kbd>
+        <span class="sound">kick</span>
+      </div>
+      <div id="key-F" data-key="70" class="key">
+        <kbd>F</kbd>
+        <span class="sound">openhat</span>
+      </div>
+      <div id="key-G" data-key="71" class="key">
+        <kbd>G</kbd>
+        <span class="sound">boom</span>
+      </div>
+      <div id="key-H" data-key="72" class="key">
+        <kbd>H</kbd>
+        <span class="sound">ride</span>
+      </div>
+      <div id="key-J" data-key="74" class="key">
+        <kbd>J</kbd>
+        <span class="sound">snare</span>
+      </div>
+      <div id="key-K" data-key="75" class="key">
+        <kbd>K</kbd>
+        <span class="sound">tom</span>
+      </div>
+      <div id="key-L" data-key="76" class="key">
+        <kbd>L</kbd>
+        <span class="sound">tink</span>
+      </div>
+    </div>
+
+    <audio id="A" data-key="65" src="sounds/clap.wav"></audio>
+    <audio id="S" data-key="83" src="sounds/hihat.wav"></audio>
+    <audio id="D" data-key="68" src="sounds/kick.wav"></audio>
+    <audio id="F" data-key="70" src="sounds/openhat.wav"></audio>
+    <audio id="G" data-key="71" src="sounds/boom.wav"></audio>
+    <audio id="H" data-key="72" src="sounds/ride.wav"></audio>
+    <audio id="J" data-key="74" src="sounds/snare.wav"></audio>
+    <audio id="K" data-key="75" src="sounds/tom.wav"></audio>
+    <audio id="L" data-key="76" src="sounds/tink.wav"></audio>
+
+    <script>
+      //var audio=  document.getElementById("76")
+      //audio.play(); 直接撥放會失敗 Uncaught (in promise) NotAllowedError: play() failed because the user didn't interact with the document first. https://goo.gl/xX8pDD
+      // 採了一個坑叫做 document.addEventListener("click",playSound ());
+      //const audio = document.querySelector('audio[data-key="75"]');
+      document.addEventListener("keydown", playHandler);
+
+      function playHandler(e) {
+        // we need to do two somtething
+        // first audio play
+        // second dom change
+        console.log("keyboard: " + e.keyCode);
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`); // 不太習慣這樣寫
+        if (audio) {
+          audio.currentTime = 0;
+          audio.play();
+        } else {
+          alert("no keycode");
+        }
+
+        console.log(audio);
+        const chosenKb = document.querySelector(`div[data-key="${e.keyCode}"]`);
+        if (chosenKb) {
+          //chosenKb.setAttribute("class", "playing");
+          chosenKb.classList.add("playing");
+          //chosenKb.classList.remove("playing");
+        }
+        // audio.play()
+        // const keyCode = e.keyCode;
+        // console.log(keyCode)
+        // const keyChar = String.fromCharCode(keyCode).toUpperCase();
+        // console.log(keyChar)
+        // const audio = document.getElementById(keyChar); // 用 ID 取得 audio
+        // console.log(audio);
+        // if(audio){ // 我喜歡正面寫
+        //   audio.currentTime=0 // 我聽不出來
+        //   audio.play()
+
+        // }
+        // //const dom = document.querySelector(`div[data-key="${e.keyCode}"]`);
+        // const dom = document.getElementById(`key-${keyChar}`); // 對應 div
+
+        // if(dom){
+        //   dom.classList.add('playing')
+        //   //dom.setAttribute('class', 'playing'); 不是我要的 哭喔
+        // }
+      }
+      document.addEventListener("keyup", removePlayingTag);
+      function removePlayingTag(e) {
+        const chosenKb = document.querySelector(`div[data-key="${e.keyCode}"]`);
+        if (chosenKb) {
+          //chosenKb.setAttribute("class", "playing");
+          //chosenKb.classList.add("playing");
+          chosenKb.classList.remove("playing");
+        }
+      }
+      // document.querySelectorAll(".key").forEach(function (key) {
+      //   key.addEventListener("transitionend", TransitionEndHandler);
+      // });
+
+      // function TransitionEndHandler(e) {
+      //   if (e.propertyName === "transform") {
+      //     console.log("e.propertyName" + e);
+      //     this.classList.remove("playing"); // 移除 class
+      //   }
+      // }
+    </script>
+  </body>
+</html>
