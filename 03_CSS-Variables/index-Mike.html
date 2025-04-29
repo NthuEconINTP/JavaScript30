@@ -25,6 +25,21 @@
     /*
       misc styles, nothing to do with CSS variables
     */
+    :root {
+ --base: #ffc600;
+ --spacing: 10px;
+ --blur: 10px;
+}
+
+img {
+padding: var( --spacing);
+background: var( --base);
+filter: blur(var( --blur));
+}
+
+.hl {
+color: var( --base);
+}
 
     body {
       text-align: center;
@@ -45,7 +60,24 @@
   </style>
 
   <script>
-  </script>
+document.getElementById("spacing").addEventListener("input", widthChange);//我直接去監聽inputs
+document.getElementById("blur").addEventListener("input", imgBlur);
+document.getElementById("color").addEventListener("input", colorChange);
+
+//改變對應的元素
+function widthChange(event) {
+  let newWidth = event.target.value;
+  document.documentElement.style.setProperty("--spacing",`${newWidth}px`);
+}
+function imgBlur(event) {
+  let newBlur = event.target.value;
+  document.documentElement.style.setProperty("--blur", `${newBlur}px`);
+}
+function colorChange(event) {
+  let newColor = event.target.value;
+  document.documentElement.style.setProperty("--color", `${newColor}`);
+}
+</script>
 
 </body>
 </html>
