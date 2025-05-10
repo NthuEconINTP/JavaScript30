@@ -66,6 +66,7 @@ document.getElementById("color").addEventListener("input", colorChange);
 
 //改變對應的元素
 function widthChange(event) {
+  console.log(event.target)
   let newWidth = event.target.value;
   document.documentElement.style.setProperty("--spacing",`${newWidth}px`);
 }
